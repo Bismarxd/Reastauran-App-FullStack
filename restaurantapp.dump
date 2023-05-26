@@ -1,0 +1,142 @@
+-- MySQL dump 10.13  Distrib 8.0.18, for Win64 (x86_64)
+--
+-- Host: localhost    Database: restaurantapp
+-- ------------------------------------------------------
+-- Server version	8.0.32
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `_prisma_migrations`
+--
+
+DROP TABLE IF EXISTS `_prisma_migrations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `_prisma_migrations` (
+  `id` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `checksum` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `finished_at` datetime(3) DEFAULT NULL,
+  `migration_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `logs` text COLLATE utf8mb4_unicode_ci,
+  `rolled_back_at` datetime(3) DEFAULT NULL,
+  `started_at` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  `applied_steps_count` int unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `_prisma_migrations`
+--
+
+LOCK TABLES `_prisma_migrations` WRITE;
+/*!40000 ALTER TABLE `_prisma_migrations` DISABLE KEYS */;
+INSERT INTO `_prisma_migrations` VALUES ('10e79ea4-372a-4810-b20c-b744f3e4ddf8','e6e8cae43b67d8bb7d10215d78afce3586b7b6ff76020b0e9e324c4770151e9d','2023-04-19 22:48:56.872','20230419224856_categorias_y_productos',NULL,NULL,'2023-04-19 22:48:56.747',1),('5be826f9-ff60-4d74-b5dd-65d115a614a4','ec9a5b675dd855d209c09fffe4ea363d6d442a47f419628c91285db5c3265aae','2023-04-22 15:29:41.770','20230422152941_estadoorden',NULL,NULL,'2023-04-22 15:29:41.710',1),('a88b4394-e730-407e-a081-443549f9b8e0','a95dec0fde2a69dae5501ef366105fe918bac2bba73a79a3418d17b6f891c38a','2023-04-19 22:51:12.469','20230419225112_ordenes',NULL,NULL,'2023-04-19 22:51:12.436',1);
+/*!40000 ALTER TABLE `_prisma_migrations` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `categoria`
+--
+
+DROP TABLE IF EXISTS `categoria`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `categoria` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `icono` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `categoria`
+--
+
+LOCK TABLES `categoria` WRITE;
+/*!40000 ALTER TABLE `categoria` DISABLE KEYS */;
+INSERT INTO `categoria` VALUES (1,'Almuerzos','menu'),(2,'Bebidas','bebidas'),(3,'Postres','postres'),(4,'Comida rápida','comida'),(5,'Vegetarianos','vgetarianos'),(6,'Desayunos','desayunos');
+/*!40000 ALTER TABLE `categoria` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `orden`
+--
+
+DROP TABLE IF EXISTS `orden`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `orden` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `fecha` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `total` double NOT NULL,
+  `pedido` json NOT NULL,
+  `estado` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `orden`
+--
+
+LOCK TABLES `orden` WRITE;
+/*!40000 ALTER TABLE `orden` DISABLE KEYS */;
+/*!40000 ALTER TABLE `orden` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `producto`
+--
+
+DROP TABLE IF EXISTS `producto`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `producto` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `precio` double NOT NULL,
+  `imagen` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `categoriaId` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `Producto_categoriaId_fkey` (`categoriaId`),
+  CONSTRAINT `Producto_categoriaId_fkey` FOREIGN KEY (`categoriaId`) REFERENCES `categoria` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `producto`
+--
+
+LOCK TABLES `producto` WRITE;
+/*!40000 ALTER TABLE `producto` DISABLE KEYS */;
+INSERT INTO `producto` VALUES (1,'Majadito de charque',25,'1_Majadito con charque.jpg',1),(2,'Pollo al horno con papas',20,'1_Pollo al horno con papas.jpeg',1),(3,'Lomo de res a la parrilla',30,'1_Lomo de res a la parrilla.jpg',1),(4,'Trucha frita con arroz',28,'1_Trucha frita con arroz.jpg',1),(5,'Locro de gallina',22,'1_Locro de gallina.png',1),(6,'Chicharrón de cerdo con mote',26,'1_Chicharrón de cerdo con mote.jpg',1),(7,'Ensalada mixta con pollo',18,'1_Ensalada mixta con pollo.jpg',1),(8,'Sopa de maní',18,'1_Sopa de maní.jpg',1),(9,'Charquekan',22,'1_Charquekan.jpg',1),(10,'Chuleta de cerdo con ensalada',28,'1_Chuleta de cerdo con ensalada.jpg',1),(11,'Seco de res con arroz y papas',30,'1_Seco de res con arroz y papas.jpg',1),(12,'Fricasé de pollo',24,'1_Fricasé de pollo.jpg',1),(13,'Hamburguesa tradicional con papas fritas',25,'4_Hamburguesa tradicional con papas fritas.jpg',4),(14,'Lomito sandwich con ensalada',22,'4_Lomito sandwich con ensalada.jpg',4),(15,'Hot dogs con salsas y papas fritas',18,'4_Hot dogs con salsas y papas fritas.jpg',4),(16,'Sandwich de chola con ensalada',20,'4_Sandwich de chola con ensalada.jpg',4),(17,'Empanadas de carne y queso',15,'4_Empanadas de carne y queso.jpg',4),(18,'Pizza de jamón y champiñones',28,'4_Pizza de jamón y champiñones.jpg',4),(19,'Pollo a la broaster con papas fritas',24,'4_Pollo a la broaster con papas fritas.jpg',4),(20,'Choripán con chimichurri y ensalada',15,'4_Choripán con chimichurri y ensalada.jpg',4),(21,'Tacos de carne con guacamole y nachos',22,'4_Tacos de carne con guacamole y nachos.jpg',4),(22,'Wrap de pollo con vegetales y papas fritas',20,'4_Wrap de pollo con vegetales y papas fritas.jpg',4),(23,'Salteñitas de pollo y papa',12,'4_Salteñitas de pollo y papa.jpg',4),(24,'Sandwich de pollo a la plancha con papas fritas',18,'4_Sandwich de pollo a la plancha con papas fritas.png',4),(25,'Picante de pollo en pan con ensalada',22,'4_Picante de pollo en pan con ensalada.jpg',4),(26,'Nachos con queso y salsa de frijoles',16,'4_Nachos con queso y salsa de frijoles.jpg',4),(27,'Café con leche',4,'6_Café con leche.jpg',6),(28,'Té',4,'6_Té.jpg',6),(29,'Chocolate caliente',5,'6_Chocolate caliente.jpg',6),(30,'Api con pastel',10,'6_Api con pastel.jpg',6),(31,'Cocoa',8,'6_Cocoa.jpg',6),(32,'Mate',6,'6_Mate.jpg',6),(33,'Chicha',5,'2_Chicha.jpg',2),(34,'Mocochinchi',4,'2_Mocochinchi.jpg',2),(35,'Gaseosa',4,'2_Gaseosa.jpg',2),(36,'Refresco de quinua',6,'2_Fresco de quinua.jpeg',2),(37,'Fresco de cebada',5,'2_Fresco de cebada.jpg',2),(38,'Fresco de uva',4,'2_Fresco de uva.jpg',2),(39,'Cerveza Paceña',8,'2_Cerveza Paceña.jpg',2),(40,'Singani Sour',10,'2_Singani Sour.jpg',2),(41,'Sopa de maní',12,'5_Sopa de maní.png',5),(42,'Plato paceño',15,'5_Plato paceño.jpg',5),(43,'Sajta de papalisa',12,'5_Sajta de papalisa.jpg',5),(44,'Pesque',8,'5_Pesque.png',5),(45,'Ensalada de quinua',8,'5_Ensalada de quinua.jpg',5),(46,'Quesillo',6,'3_Quesillo.jpg',3),(47,'Salteñas',6,'3_Salteñas.jpg',3),(48,'Sonso',5,'3_Sonso.jpg',3),(49,'Helado de canela',4,'3_Helado de canela.jpg',3),(50,'Arroz con leche',4,'3_Arroz con leche.jpg',3),(51,'Mazamorra',5,'3_Mazamorra.jpg',3),(52,'Tawa tawas',6,'3_Tawa tawas.jpg',3),(53,'Torta',7,'3_Torta.jpg',3),(54,'Relleno de papa',4,'3_Relleno de papa.png',3),(55,'Sopaipillas',5,'3_Sopaipillas.jpg',3),(56,'Empanadas',4,'3_Empanadas.jpg',3);
+/*!40000 ALTER TABLE `producto` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping routines for database 'restaurantapp'
+--
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2023-05-26 18:47:20
